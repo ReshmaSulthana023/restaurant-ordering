@@ -2,9 +2,30 @@
 #include <string>
 #include <queue>
 using namespace std;
-float Order()
+class rest{
+    private:
+        string customerName;
+    public:
+        rest(string name)
+        {
+            customerName=name;
+        }
+        float order();
+        void deleteOrder();
+};
+class OVIP:public rest{
+    private:
+        char isVIP;
+    public:
+        OVIP(string name,char is):rest(name)
+        {
+            isVIP=is;
+        }
+};
+float rest::order()
 {
-	int choice;
+
+    int choice;
     float bill=0.0;
     cout<<"----------Welcome to Restaurant----------"<<endl;
     cout<<"----------Choose the food----------"<<endl;
@@ -200,18 +221,31 @@ float Order()
     }
     return bill;
 }
+
 int main()
 {
 	while(1)
 	{
-		string customerName;
-		float bill=0.0;
+        float bill=0.0;
+        string customerName;char VIP;
 	    cout<<"Please enter your name:";
-	    cin.ignore();
-	    getline(cin,customerName);
-	    queue <string> customerQueue;
-	    customerQueue.push(customerName);
-	    bill=Order();
+        cin.ignore();
+        getline(cin,customerName);
+        cout<<"Is VIP?(y/n):";
+        cin.ignore();
+        cin>>VIP;
+        OVIP customer(customerName,VIP);
+        queue <string> VIPQueue;
+        queue <string> customerQueue;
+        if(VIP=='y' || VIP=='Y')
+        {
+            VIPQueue.push(customerName);
+        }
+        else
+        {
+            customerQueue.push(customerName);
+        }
+        bill=customer.order();
 	    cout<<endl<<"Total Bill: Rs."<<bill<<endl;
 	    cout<<"----Hope you enjoyed the food----"<<endl;
 		cout<<"----We would love to see you again!----"<<endl<<endl;
