@@ -3,80 +3,80 @@
 #include <queue>
 using namespace std;
 class rest{
-    private:
-        string customerName;
-    public:
-        rest(string name)
-        {
-            customerName=name;
-        }
-        float order();
-        void deleteOrder();
+	protected:
+		string cName;
+		float bill;
+	public:
+		rest(string n)
+		{
+			cName=n;
+			bill=0.0;
+		}
+		float order();
+		void deleteItem();
+		void deleteOrder();
 };
-class OVIP:public rest{
-    private:
-        char isVIP;
-    public:
-        OVIP(string name,char is):rest(name)
-        {
-            isVIP=is;
-        }
+class restaurant:public rest{
+	private:
+		char isVIP;
+	public:
+		restaurant(string name,char is):rest(name)
+		{
+			isVIP=is;
+		}
 };
 float rest::order()
 {
-
-    int choice;
+	cout<<"---------Choose the food--------"<<endl;
+    cout<<"1.Starters\n2.Indian\n3.Continental\n4.Breads & Rice\n5.Desserts\n6.Beverages\n7.Bill:"<<endl;
+    cin>>order;
     float bill=0.0;
-    cout<<"----------Welcome to Restaurant----------"<<endl;
-    cout<<"----------Choose the food----------"<<endl;
-    cout<<"1.Breakfast\n2.Meals\n3.Snacks\n4.Desserts:"<<endl;
-    cin>>choice;
-    switch(choice)
+    switch(order)
     {
-        int order,quantity;
         char reorder;
         case 1:
-            do{
-                int order,quantity;
-                cout << "\n-------- Breakfast Menu --------\n";
-                cout << "1. Dosa             -       Rs.80\n";
-                cout << "2. Poori            -       Rs.65\n";
-                cout << "3. Idli             -       Rs.80\n";
-                cout << "4. Vada             -       Rs.60\n";
-                cout << "5. Aloo Paratha     -       Rs.150\n";
-                cout << "6. Paneer Paratha   -       Rs.210\n";
-                cout << "7. Poha             -       Rs.100\n";
-                cout << "Enter your order number (1-7): ";
-                cin >> order;
-                cout<<"Enter quantity:";
+            do
+            {
+                int token,quantity;
+                cout<<"----------Starters Menu----------"<<endl;
+                cout<<"1.Veg Spring Rolls            -        Rs.120\n";
+                cout<<"2.Chicken Lollipop            -        Rs.185\n";
+                cout<<"3.Panner Tikka            	 -        Rs.150\n";
+                cout<<"4.Crispy Corn                 -        Rs.130\n";
+                cout<<"5.Egg Devil                   -        Rs.150\n";
+                cout<<"6.Stuffed Mushrooms           -        Rs.140\n";
+                cout<<"7.Chicken Malai Tikka         -        Rs.190\n";
+                cout<<"Enter your order number(1-7):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
                 cin>>quantity;
-                switch(order)
+                switch(token)
                 {
                     case 1:
-                        bill+=80*quantity;
+                        bill+=120*quantity;
                         break;
                     case 2:
-                        bill+=65*quantity;
+                        bill+=185*quantity;
                         break;
                     case 3:
-                        bill+=80*quantity;
+                        bill+=150*quantity;
                         break;
                     case 4:
-                        bill+=60*quantity;
+                        bill+=130*quantity;
                         break;
                     case 5:
                         bill+=150*quantity;
                         break;
                     case 6:
-                        bill+=210*quantity;
+                        bill+=140*quantity;
                         break;
                     case 7:
-                        bill+=100*quantity;
+                        bill+=190*quantity;
                         break;
                     default:
-                        cout<<"Invalid order";
+                        cout<<"Invalid token";
                 }
-                cout<<"Do you want to add some more items?(y/n):";
+                cout<<"Want to add more items?(y/n):"<<endl;
                 cin>>reorder;
             }while(reorder=='y' || reorder=='Y');
             break;
@@ -84,170 +84,247 @@ float rest::order()
             do
             {
                 int order,quantity;
-                cout << "\n-------- Meals Menu --------\n";
-                cout << "1. Chicken Biryani       -     Rs.210\n";
-                cout << "2. Mutton Biryani        -     Rs.300\n";
-                cout << "3. Vegetable Biryani     -     Rs.200\n";
-                cout << "4. Veg Thali             -     Rs.120\n";
-                cout << "5. Bhagara rice          -     Rs.150\n";
-                cout << "Enter your order number (1-5): ";
-                cin >> order;
-                cout<<"Enter quantity:";
+                cout<<"----------Indian Menu----------"<<endl;
+                cout<<"1.Butter Chicken            -        Rs.250\n";
+                cout<<"2.Panner Butter Masala      -        Rs.200\n";
+                cout<<"3.Dal Makhani               -        Rs.150\n";
+                cout<<"4.Chicken Biryani           -        Rs.220\n";
+                cout<<"5.Veg Bhiryani              -        Rs.180\n";
+                cout<<"6.Aalu Paratha              -        Rs.140\n";
+                cout<<"7.Fish Curry                -        Rs.250\n";
+                cout<<"Enter your order number(1-7):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
                 cin>>quantity;
-                switch(order)
+                switch(token)
                 {
                     case 1:
-                        bill+=210*quantity;
+                        bill+=250*quantity;
                         break;
                     case 2:
-                        bill+=300*quantity;
-                        break;
-                    case 3:
                         bill+=200*quantity;
                         break;
-                    case 4:
-                        bill+=120*quantity;
-                        break;
-                    case 5:
+                    case 3:
                         bill+=150*quantity;
                         break;
+                    case 4:
+                        bill+=220*quantity;
+                        break;
+                    case 5:
+                        bill+=180*quantity;
+                        break;
+                    case 6:
+                        bill+=140*quantity;
+                        break;
+                    case 7:
+                        bill+=250*quantity;
+                        break;
                     default:
-                        cout<<"invalid order";
+                        cout<<"Invalid token";
                 }
-                cout<<"Do you want to add some more items?(y/n):";
+                cout<<"Want to add more items?(y/n):"<<endl;
                 cin>>reorder;
-            }while(reorder=='y' || reorder=='Y');
+                }while(reorder=='Y' || reorder=='y');
             break;
         case 3:
             do
             {
                 int order,quantity;
-                cout << "\n-------- Snacks Menu --------\n";
-                cout << "1. Noodles               -     Rs.60\n";
-                cout << "2. Chicken lolipop       -     Rs.200\n";
-                cout << "3. Burger                -     Rs.80\n";
-                cout << "4. Samosa                -     Rs.60\n";
-                cout << "5. Pizza                 -     Rs.150\n";
-                cout << "6. French Fries          -     Rs.80\n";
-                cout << "7. Pav Bhaji             -     Rs.150\n";
-                cout << "8. Gobi Manchurian       -     Rs.80\n";
-                cout << "Enter your order number (1-8): ";
-                cin >> order;
-                cout<<"Enter quantity:";
+                cout<<"----------Continental Menu----------"<<endl;
+                cout<<"1.Chicken Alfredo Pasta                 -        Rs.240\n";
+                cout<<"2.Lamb chops with Mashed Poatatoes      -        Rs.320\n";
+                cout<<"3.Stufed Bell Peppers                   -        Rs.180\n";
+                cout<<"4.Butterd Veggies                       -        Rs.90\n";
+                cout<<"5.Veg Laanga                            -        Rs.220\n";
+                cout<<"6.BBQ Chicken Wings                     -        Rs.190\n";
+                cout<<"Enter your order number(1-6):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
                 cin>>quantity;
-                switch(order)
+                switch(token)
                 {
                     case 1:
-                        bill+=60*quantity;
+                        bill+=240*quantity;
                         break;
                     case 2:
-                        bill+=200*quantity;
+                        bill+=320*quantity;
+                        break;
+                    case 3:
+                        bill+=180*quantity;
+                        break;
+                    case 4:
+                        bill+=90*quantity;
+                        break;
+                    case 5:
+                        bill+=220*quantity;
+                        break;
+                    case 6:
+                        bill+=190*quantity;
+                        break;
+                    default:
+                        cout<<"Invalid token";
+                }
+                cout<<"Want to add more items?(y/n):"<<endl;
+                cin>>reorder;
+            }while(reorder=='Y' || reorder=='y');
+            break;
+        case 4:
+            int order,quantity;
+            do
+            {
+                cout<<"----------Breads & Rice Menu----------"<<endl;
+                cout<<"1.Naan(plain/butter)                 -        Rs.40\n";
+                cout<<"2.Tandoori Roti   					-        Rs.25\n";
+                cout<<"3.Steamed Rice                		-        Rs.80\n";
+                cout<<"4.Jeera Rice                    		-        Rs.100\n";
+                cout<<"Enter your order number(1-4):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
+                cin>>quantity;
+                switch(token)
+                {
+                    case 1:
+                        bill+=40*quantity;
+                        break;
+                    case 2:
+                        bill+=25*quantity;
                         break;
                     case 3:
                         bill+=80*quantity;
                         break;
                     case 4:
+                        bill+=100*quantity;
+                        break;
+                    default:
+                        cout<<"Invalid token";
+                }
+                cout<<"Want to add more items?(y/n):"<<endl;
+                cin>>reorder;
+            }while(reorder=='y' || reorder=='Y');
+            break;
+        case 5:
+            int order,quantity;
+            do
+            {
+                cout<<"----------Desserts Menu----------"<<endl;
+                cout<<"1.Gulab Jamun                -        Rs.60\n";
+                cout<<"2.Chocolate Brownie   		-        Rs.80\n";
+                cout<<"3.Ice cream                	-        Rs.40\n";
+                cout<<"4.Rasmalai                   -        Rs.90\n";
+                cout<<"5.Tiramisu                   -        Rs.110\n";
+                cout<<"6.Fruit salad                -        Rs.80\n";
+                cout<<"Enter your order number(1-4):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
+                cin>>quantity;
+                switch(token)
+                {
+                    case 1:
                         bill+=60*quantity;
                         break;
+                    case 2:
+                        bill+=80*quantity;
+                        break;
+                    case 3:
+                        bill+=40*quantity;
+                        break;
+                    case 4:
+                        bill+=90*quantity;
+                        break;
                     case 5:
-                        bill+=150*quantity;
+                        bill+=110*quantity;
                         break;
                     case 6:
                         bill+=80*quantity;
                         break;
-                    case 7:
-                        bill+=150*quantity;
-                        break;
-                    case 8:
-                        bill+=80*quantity;
-                        break;
                     default:
-                        cout<<"invalid order";
+                        cout<<"Invalid token";
                 }
-                cout<<"Do you want to add some more items?(y/n):";
+                cout<<"Want to add more items?(y/n):"<<endl;
                 cin>>reorder;
             }while(reorder=='y' || reorder=='Y');
             break;
-        case 4:
+        case 6:
             do
             {
                 int order,quantity;
-                cout << "\n-------- Dessert Menu --------\n";
-                cout << "1. Pineapple cake      -      Rs.60\n";
-                cout << "2. Tiramisu            -      Rs.110\n";
-                cout << "3. Cup cakes           -      Rs.80\n";
-                cout << "4. Brownies            -      Rs.60\n";
-                cout << "5. Milkshakes          -      Rs.80\n";
-                cout << "6. Almond shake        -      Rs.80\n";
-                cout << "7. Ice cream           -      Rs.60\n";
-                cout << "8. Fruit Salad         -      Rs.80\n";
-                cout << "Enter your order number (1-8): ";
-                cin >> order;
-                cout<<"Enter quantity:";
+                cout<<"----------Beverages Menu----------"<<endl;
+                cout<<"1.Masala Chai            -        Rs.30\n";
+                cout<<"2.Cold coffee        	-        Rs.70\n";
+                cout<<"3.Fresh Lime Soda        -        Rs.50\n";
+                cout<<"4.Soft Drinks            -        Rs.40\n";
+                cout<<"5.Coconut water          -        Rs.60\n";
+                cout<<"6.Cappuccino             -        Rs.90\n";
+                cout<<"Enter your order number(1-6):"<<endl;
+                cin>>token;
+                cout<<"Enter quantity:"<<endl;
                 cin>>quantity;
-                switch(order)
+                switch(token)
                 {
                     case 1:
-                        bill+=60*quantity;
+                        bill+=30*quantity;
                         break;
                     case 2:
-                        bill+=110*quantity;
+                        bill+=70*quantity;
                         break;
                     case 3:
-                        bill+=80*quantity;
+                        bill+=50*quantity;
                         break;
                     case 4:
-                        bill+=60*quantity;
+                        bill+=40*quantity;
                         break;
                     case 5:
-                        bill+=80*quantity;
-                        break;
-                    case 6:
-                        bill+=80*quantity;
-                        break;
-                    case 7:
                         bill+=60*quantity;
                         break;
-                    case 8:
-                        bill+=80*quantity;
+                    case 6:
+                        bill+=90*quantity;
                         break;
                     default:
-                        cout<<"invalid order";
+                        cout<<"Invalid token";
                 }
-                cout<<"Do you want to add some more items?(y/n):";
+                cout<<"Want to add more items?(y/n):"<<endl;
                 cin>>reorder;
-            }while(reorder=='y' || reorder=='Y');
+            }while(reorder=='Y' || reorder=='y');
             break;
-    }
-    return bill;
+        default:
+            cout<<"Invalid choice"<<endl;
+        }
 }
-
 int main()
 {
-	while(1)
+	bool isOpen=true;
+	queue<string> vipQueue;
+	queue<string> customerQueue;
+	int c=0;
+	restaurant r;
+	while(c<=500)
 	{
-        float bill=0.0;
-        string customerName;char VIP;
-	    cout<<"Please enter your name:";
-        cin.ignore();
-        getline(cin,customerName);
-        cout<<"Is VIP?(y/n):";
-        cin.ignore();
-        cin>>VIP;
-        OVIP customer(customerName,VIP);
-        queue <string> VIPQueue;
-        queue <string> customerQueue;
-        if(VIP=='y' || VIP=='Y')
-        {
-            VIPQueue.push(customerName);
-        }
-        else
-        {
-            customerQueue.push(customerName);
-        }
-        bill=customer.order();
-	    cout<<endl<<"Total Bill: Rs."<<bill<<endl;
-	    cout<<"----Hope you enjoyed the food----"<<endl;
-		cout<<"----We would love to see you again!----"<<endl<<endl;
+		int choice;
+		cout<<"----------Welcome to Restaurant----------"<<endl;
+		cout<<"----------What is your choice?-----------"<<endl;
+		string name;char isVip;
+		cout<<"Your good name please:"<<endl;
+		cin>>name;
+		cin.ignore();
+		cout<<"Is VIP?(Y/N):"<<endl;
+		cin>>isVip;
+		if(isVip=='Y' || isVip=='y')
+		{
+			vipQueue.push(name);
+		}
+		else
+		{
+			customerQueue.push(name);
+		}
+		cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Exit"<<endl;
+		cin>>choice;
+		switch(choice)
+		{
+			case 1:
+				r.order();
+			case 2:
+				cout<<"Delete item:"<<endl;
+				
+		}
 	}
 }
