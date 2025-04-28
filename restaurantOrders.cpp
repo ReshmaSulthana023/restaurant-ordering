@@ -46,7 +46,7 @@ class rest{
 	protected:
 		string cName;
 		float bill;
-		vector<pair<string,int> >orders;
+		vector<pair<string,int>>orders;
 	public:
 		rest(string n)
 		{
@@ -69,7 +69,6 @@ class restaurant:public rest{
 void rest::order()
 {
 	int order;char reorder;
-	bool isServe=false;
 	cout<<"---------Choose the food--------"<<endl;
     do{
     cout<<"1.Starters\n2.Indian\n3.Continental\n4.Breads & Rice\n5.Desserts\n6.Beverages:"<<endl;
@@ -247,9 +246,6 @@ void rest::order()
     cin>>reorder;
     cin.ignore();
     }while(reorder=='y' || reorder=='Y');
-    cout<<"Total Bill:     Rs."<<bill<<endl;
-	cout<<"----------Thank you for visiting!-------------"<<endl;
-	cout<<"----------Hope you will enjoy the food-----------"<<endl;
 }
 void rest::deleteItem(int del)
 {
@@ -266,35 +262,13 @@ void rest::deleteItem(int del)
         cout<<"Invalid item"<<endl;
     }
 }
-int main()
+int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,char isVip)
 {
-	int c=0;
-	queue<string> vipQueue;
-	queue<string> customerQueue;
-	int choice;
-    char newCustomer;
-    do
-    {
-        cout<<"----------Welcome to Restaurant----------"<<endl;
-        string name;char isVip;
-        cout<<"Your good name please:"<<endl;
-        cin>>name;
-        cin.ignore();
-        cout<<"Is VIP?(Y/N):"<<endl;
-        cin>>isVip;
-        if(isVip=='Y' || isVip=='y')
-        {
-            vipQueue.push(name);
-        }
-        else
-        {
-            customerQueue.push(name);
-        }
-        restaurant r (name,isVip);
-        cout<<"----------What is your choice?-----------"<<endl;
-        cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Exit"<<endl;
-        cin>>choice;
-        cin.ignore();
+    int choice;float bill;
+    cout<<"----------What is your choice?-----------"<<endl;
+    cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Bill:"<<endl;
+    cin>>choice;
+    cin.ignore();
         switch(choice)
         {
             case 1:
@@ -317,38 +291,75 @@ int main()
                 }
                 break;
             case 4:
-                cout<<"----------VIP Queue---------"<<endl;
-                if(vipQueue.empty())
-                cout<<"No Vip Customers"<<endl;
-                else
+            cout<<"----------VIP Queue---------"<<endl;
+            if(vipQueue.empty())
+            cout<<"No Vip Customers"<<endl;
+            else
+            {
+                queue<string> temp=vipQueue;
+                while(!temp.empty())
                 {
-                    queue<string> temp=vipQueue;
-                    while(!temp.empty())
-                    {
-                        cout<<temp.front()<<endl;
-                        temp.pop();
-                    }
+                    cout<<temp.front()<<endl;
+                    temp.pop();
                 }
-                cout<<"----------Customers Queue---------"<<endl;
-                if(customerQueue.empty())
-                cout<<"No Customers"<<endl;
-                else
+            }
+            cout<<"----------Customers Queue---------"<<endl;
+            if(customerQueue.empty())
+            cout<<"No Customers"<<endl;
+            else
+            {
+                queue<string> temp=customerQueue;
+                while(!temp.empty())
                 {
-                    queue<string> temp=customerQueue;
-                    while(!temp.empty())
-                    {
-                        cout<<temp.front()<<endl;
-                        temp.pop();
-                    }
+                    cout<<temp.front()<<endl;
+                    temp.pop();
                 }
-                break;
+            }
+            break;
             case 5:
-                cout<<"-----We would love to see you again!-----"<<endl;
+                {
+                    cout<<"============Total Bill:     Rs."<<bill<<"============="<<endl;
+                    cout<<"----------Thank you for visiting!-------------"<<endl;
+                    cout<<"----------Hope you will enjoy the food-----------"<<endl;
+                    cout<<"========================================================"<<endl;
+                }
                 break;
             default:
                 cout<<"Invalid Choice please enter again:"<<endl;
                 cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Exit"<<endl;
         }
+        return choice;
+}
+int main()
+{
+	int c=0;
+	queue<string> vipQueue;
+	queue<string> customerQueue;
+	int choice;
+    char newCustomer;
+    do
+    {
+        int mainChoice;
+        cout<<"----------Welcome to Restaurant----------"<<endl;
+        string name;char isVip;
+        cout<<"Your good name please:"<<endl;
+        cin>>name;
+        cin.ignore();
+        cout<<"Is VIP?(Y/N):"<<endl;
+        cin>>isVip;
+        if(isVip=='Y' || isVip=='y')
+        {
+            vipQueue.push(name);
+        }
+        else
+        {
+            customerQueue.push(name);
+        }
+        restaurant r (name,isVip);
+        do
+        {
+            mainChoice=mainMenu(r,vipQueue,customerQueue,isVip);
+        }while(mainChoice!=5);
         cout<<"Is there new Customer?(y/n):"<<endl;
         cin>>newCustomer;
         cin.ignore();
