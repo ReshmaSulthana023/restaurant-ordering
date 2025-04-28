@@ -23,7 +23,7 @@ map<string,float> priceMenu={
         {"Lamb chops with Mashed Poatatoes",320},   
         {"Stufed Bell Peppers",180},                 
         {"Butterd Veggies",90},                
-        {"Veg Laanga",220},                         
+        {"Veggies Quesadillas",220},                         
         {"BBQ Chicken Wing",190},            
         {"Naan(plain/butter)",40},               
         {"Tandoori Roti",25},   
@@ -142,7 +142,7 @@ void rest::order()
                 cout<<"2.Lamb chops with Mashed Poatatoes      -        Rs.320\n";
                 cout<<"3.Stufed Bell Peppers                   -        Rs.180\n";
                 cout<<"4.Butterd Veggies                       -        Rs.90\n";
-                cout<<"5.Veg Laanga                            -        Rs.220\n";
+                cout<<"5.Veggies Quesadillas                   -        Rs.220\n";
                 cout<<"6.BBQ Chicken Wings                     -        Rs.190\n";
                 cout<<"Enter your food:"<<endl;
                 getline(cin,token);
