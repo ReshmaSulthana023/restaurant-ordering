@@ -3,6 +3,8 @@
 #include <queue>
 #include <vector>
 #include <map>
+#include <iomanip>
+#include <ctime>
 using namespace std;
 map<string,float> priceMenu={
         {"Veg Spring Rolls", 120.0},
@@ -43,22 +45,78 @@ map<string,float> priceMenu={
         {"Cappuccino",90.0},                      
 };
 class rest{
-	protected:
-		string cName;
+	private:
 		float bill;
 		vector<pair<string, int>> orders;
+        int tableNumber;
 	public:
-		rest(string n) : cName(n), bill(0){}
+        string cName;
+		rest(string n,int table) : cName(n), bill(0) ,tableNumber(table) {}
 		void order();
 		void deleteItem(int itemNum);
 		void deleteOrder(char isVip);
         void showBill();
         void applyDiscount();
+        int getTableNumber() const {return tableNumber; }
 };
 class restaurant : public rest{
-    char isVIP;
-public:
-	restaurant(string name,char isVip) : rest(name) , isVIP(isVip) {}
+    private:
+        char isVIP;
+    public:
+	    restaurant(string name,char isVip,int table) : rest(name,table) , isVIP(isVip) {}
+        char getVipStatus() const {return isVIP; }
+        void setVipStatus(char status) {isVIP = status;}
+};
+class Kitchen{
+    private:
+        queue<pair<int ,vector<pair<string,int>>>> orderQueue;
+        map<int,bool> tables;
+        public:
+            void addTable(int tableNumber)
+            {
+                tables[tableNumber]=false;
+            }
+            void displayTables()
+            {
+                cout<<"\n-----Tables-----\n";
+                cout<<setw(10)<<"Table No"<<setw(15)<<"status\n";
+                for(const auto& table : tables)
+                {
+                    cout<<setw(10)<<table.first<<setw(15)<<(table.second?"Occupied" : "Available")<<endl;
+                }
+            }
+            void placeOrder(int tableNumber,const vector<pair<string,int>>& items){
+                orderQueue.push({tableNumber,items});
+                tables[tableNumber]=true;
+                cout<<"Order sent to kitchen for table:"<<tableNumber<<endl;
+            }
+            void processOrders()
+            {
+                if(orderQueue.empty()){
+                    cout<<"No pending orders in Kitchen"<<endl;
+                    return;
+                }
+                cout<<"\n------Kitchen Orders-------\n";
+                while(!orderQueue.empty())
+                {
+                    auto order=orderQueue.front();
+                    orderQueue.pop();
+                    cout<<"Processing order for table "<<order.first<<":\n";
+                    for(const auto& item : order.second)
+                    {
+                        cout<<" - "<<item.first<<"(Qty:"<<item.second<<")\n";
+                    }
+                    cout<<"Order completed\n";
+                }
+            }
+            void clearTable(int tableNumber)
+            {
+                tables[tableNumber]=false;
+            }
+            bool isTableOccupied(int tableNumber)
+            {
+                return tables.count(tableNumber) && tables[tableNumber];
+            }
 };
 void rest::order()
 {
@@ -183,11 +241,14 @@ void rest::deleteItem(int del)
 void rest::showBill()
 {
     cout<<"------------Order Summary-----------"<<endl;
+    time_t now=time(0);
+    cout<<"Table: "<<tableNumber<<"\tCustomer: "<<cName<<endl;
+    cout<<"Date: "<<ctime(&now);
     for(auto& order : orders)
     {
-        cout<<order.first<<"      -  Qty:      "<<order.second<<endl;
+        cout<<order.first<<"\t\t-\t\tQty:      "<<order.second<<endl;
     }
-    cout<<"==========Total Bill:         Rs."<<bill<<endl;
+    cout<<"==========Total Bill:           Rs."<<bill<<endl;
     if(bill>2000)
     {
         applyDiscount();
@@ -199,11 +260,11 @@ void rest::applyDiscount()
     bill -= discount;
     cout<<"===========Total Bill(after 15 percent discount)============"<<bill<<endl;
 }
-int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,char isVip,int &servedVipCount)
+int mainMenu(restaurant &r,Kitchen &kitchen,queue<restaurant> &vipQueue,queue<restaurant> &customerQueue,char isVip,int &servedVipCount)
 {
     int choice;
     cout<<"----------What is your choice?-----------"<<endl;
-    cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Bill:"<<endl;
+    cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Process Kitchen\n6.View Table\n7.Bill\n8.Exit:"<<endl;
     cin>>choice;
     cin.ignore();
     switch(choice)
@@ -220,24 +281,24 @@ int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,
         case 3:
             if(isVip=='y' || isVip=='Y')
             {
-                if(!vipQueue.empty()) customerQueue.pop();
-                servedVipCount++;
+                if(!vipQueue.empty()) vipQueue.pop();
             }
             else
             {
                 if(!customerQueue.empty()) customerQueue.pop();
             }
-            break;
+            kitchen.clearTable(r.getTableNumber());
+            return -1;
         case 4:
         cout<<"----------VIP Queue---------"<<endl;
         if(vipQueue.empty())
         cout<<"No Vip Customers"<<endl;
         else
         {
-            queue<string> temp = vipQueue;
+            queue<restaurant> temp = vipQueue;
             while(!temp.empty())
             {
-                cout<<temp.front()<<endl;
+                cout<<"Customer: "<<temp.front().cName<<"at Table "<<temp.front().getTableNumber()<<endl;
                 temp.pop();
             }
         }
@@ -246,20 +307,40 @@ int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,
         cout<<"No Customers"<<endl;
         else
         {
-            queue<string> temp=customerQueue;
+            queue<restaurant> temp=customerQueue;
             while(!temp.empty())
             {
-                cout<<temp.front()<<endl;
+                cout<<"Customer: "<<temp.front().cName<<"at Table "<<temp.front().getTableNumber()<<endl;
                 temp.pop();
             }
         }
         break;
         case 5:
+            kitchen.processOrders();
+            break;
+        case 6:
+            kitchen.displayTables();
+            break;
+        case 7:
             r.showBill();
+            kitchen.clearTable(r.getTableNumber());
             cout<<"----------Thank you for visiting!-------------"<<endl;
             cout<<"----------Hope you enjoyed the food-----------"<<endl;
-            cout<<"========================================================"<<endl;
+            int rating;
+            cout<<"Please rate the service out of 5:"<<endl;
+            cin>>rating;
+            if(rating < 1 || rating >5)
+            {
+                cout<<"Invalid rating,please enter rating between 1 and 5:"<<endl;
+            }
+            else
+            {
+                cout<<"Thank you for your feedback"<<endl;
+                cout<<"========================================================"<<endl;
+            }
             break;
+        case 8:
+            return -1;
         default:
             cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Bill"<<endl;
     }
@@ -267,9 +348,14 @@ int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,
 }
 int main()
 {
+    Kitchen kitchen;
+    for(int i=1;i<=30;i++)
+    {
+        kitchen.addTable(i);
+    }
 	int servedVipCount=0;
-	queue<string> vipQueue;
-	queue<string> customerQueue;
+	queue<restaurant> vipQueue;
+	queue<restaurant> customerQueue;
     char newCustomer;
     do
     {
@@ -279,34 +365,59 @@ int main()
         cin>>name;
         cout<<"Is VIP?(Y/N):"<<endl;
         cin>>isVip;
+        cin.ignore();
+        int tableNumber;
+        bool validTable=false;
+        while(!validTable)
+        {
+            cout<<"Enter table Number(1-30):"<<endl;
+            cin>>tableNumber;
+            cin.ignore();
+            if(kitchen.isTableOccupied(tableNumber))
+            {
+                cout<<"Table "<<tableNumber<<" is already occupied"<<endl;
+                continue;
+            }
+            validTable=true;
+        }
+        restaurant r (name,isVip,tableNumber);
         if(isVip=='Y' || isVip=='y')
         {
-            vipQueue.push(name);
-        }
-        else
-        {
-            customerQueue.push(name);
-        }
-        restaurant r (name,isVip);
-        int mainChoice;
-        do
-        {
+            vipQueue.push(r);
+            servedVipCount++;
             if(servedVipCount>=2 && !customerQueue.empty())
             {
-                    servedVipCount=0;
+                servedVipCount=0;
             }
-            mainChoice=mainMenu(r,vipQueue,customerQueue,isVip,servedVipCount);
-        }while(mainChoice!=5);
-        int rating;
-        cout<<"Please rate the service out of 5:"<<endl;
-        cin>>rating;
-        if(rating < 1 || rating >5)
-        {
-            cout<<"Invalid rating,please enter rating between 1 and 5:"<<endl;
         }
         else
         {
-            cout<<"Thank you for your feedback"<<endl;
+            customerQueue.push(r);
+        }
+        while(!vipQueue.empty() || !customerQueue.empty())
+        {
+            if(!vipQueue.empty() && servedVipCount<2)
+            {
+                restaurant cCustomer=vipQueue.front();
+                vipQueue.pop();
+                cout<<"\nNow serving VIP customer: "<<cCustomer.getTableNumber()<<endl;
+                int mainChoice;
+                do{
+                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
+                }while(mainChoice!=7 && mainChoice>0);
+                servedVipCount++;
+            }
+            else if(!customerQueue.empty())
+            {
+                restaurant cCustomer=customerQueue.front();
+                customerQueue.pop();
+                cout<<"\nNow serving  customer: "<<cCustomer.getTableNumber()<<endl;
+                int mainChoice;
+                do{
+                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
+                }while(mainChoice!=7 && mainChoice>0);
+                servedVipCount=0;
+            }
         }
         cout<<"Is there new Customer?(y/n):"<<endl;
         cin>>newCustomer;
