@@ -5,189 +5,122 @@
 #include <map>
 using namespace std;
 map<string,float> priceMenu={
-        {"Veg Spring Rolls", 120},
-        {"Chicken Lollipop", 185},
-        {"Panner Tikka",150},
-        {"Crispy Corn",130},
-        {"Egg Devil",150},
-        {"Stuffed Mushrooms",140},
-        {"Chicken Malai Tikka",190},
-        {"Butter Chicken",250},
-        {"Panner Butter Masala",200},
-        {"Dal Makhani",150},
-        {"Chicken Biryani",220}, 
-        {"Veg Bhiryani",180},     
-        {"Aalu Paratha",140},
-        {"Fish Curry",250},
-        {"Chicken Alfredo Pasta",240},              
-        {"Lamb chops with Mashed Poatatoes",320},   
-        {"Stufed Bell Peppers",180},                 
-        {"Butterd Veggies",90},                
-        {"Veggies Quesadillas",220},                         
-        {"BBQ Chicken Wing",190},            
-        {"Naan(plain/butter)",40},               
-        {"Tandoori Roti",25},   
-        {"Steamed Rice",80},                	
-        {"Jeera Rice",100},   
-        {"Gulab Jamun",60},              
-        {"Chocolate Brownie",80},   	
-        {"Ice cream",40},               	
-        {"Rasmalai",90},                   
-        {"Tiramisu",110},                   
-        {"Fruit salad",80},   
-        {"Masala Chai",30},            
-        {"Cold coffee",70},       	
-        {"Fresh Lime Soda",50},       
-        {"Soft Drinks",40},            
-        {"Coconut water",60},          
-        {"Cappuccino",90},                      
+        {"Veg Spring Rolls", 120.0},
+        {"Chicken Lollipop", 185.0},
+        {"Paneer Tikka",150.0},
+        {"Crispy Corn",130.0},
+        {"Egg Devil",150.0},
+        {"Stuffed Mushrooms",140.0},
+        {"Chicken Malai Tikka",190.0},
+        {"Butter Chicken",250.0},
+        {"Paneer Butter Masala",200.0},
+        {"Dal Makhani",150.0},
+        {"Chicken Biryani",220.0}, 
+        {"Veg Biryani",180.0},     
+        {"Aalu Paratha",140.0},
+        {"Fish Curry",250.0},
+        {"Chicken Alfredo Pasta",240.0},              
+        {"Lamb chops with Mashed Potatoes",320.0},   
+        {"Stuffed Bell Peppers",180.0},                 
+        {"Buttered Veggies",90.0},                
+        {"Veggies Quesadillas",220.0},                         
+        {"BBQ Chicken Wing",190.0},            
+        {"Naan(plain/butter)",40.0},               
+        {"Tandoori Roti",25.0},   
+        {"Steamed Rice",80.0},                	
+        {"Jeera Rice",100.0},   
+        {"Gulab Jamun",60.0},              
+        {"Chocolate Brownie",80.0},   	
+        {"Ice cream",40.0},               	
+        {"Rasmalai",90.0},                   
+        {"Tiramisu",110.0},                   
+        {"Fruit salad",80.0},   
+        {"Masala Chai",30.0},            
+        {"Cold coffee",70.0},       	
+        {"Fresh Lime Soda",50.0},       
+        {"Soft Drinks",40.0},            
+        {"Coconut water",60.0},          
+        {"Cappuccino",90.0},                      
 };
 class rest{
 	protected:
 		string cName;
 		float bill;
-		vector<pair<string,int>>orders;
+		vector<pair<string, int>> orders;
 	public:
-		rest(string n)
-		{
-			cName=n;
-			bill=0.0;
-		}
+		rest(string n) : cName(n), bill(0){}
 		void order();
 		void deleteItem(int itemNum);
 		void deleteOrder(char isVip);
+        void showBill();
+        void applyDiscount();
 };
-class restaurant:public rest{
-	private:
-		char isVIP;
-	public:
-		restaurant(string name,char is):rest(name)
-		{
-			isVIP=is;
-		}
+class restaurant : public rest{
+    char isVIP;
+public:
+	restaurant(string name,char isVip) : rest(name) , isVIP(isVip) {}
 };
 void rest::order()
 {
-	int order;char reorder;
+	int category;char reorder;string token;int quantity;
 	cout<<"---------Choose the food--------"<<endl;
     do{
     cout<<"1.Starters\n2.Indian\n3.Continental\n4.Breads & Rice\n5.Desserts\n6.Beverages:"<<endl;
-    cin>>order;
+    cin>>category;
     cin.ignore();
-    switch(order)
+    switch(category)
     {
-        char reorder;
         case 1:
                 {
-                    string token;int quantity;
+                string token;int quantity;
                 cout<<"----------Starters Menu----------"<<endl;
                 cout<<"1.Veg Spring Rolls            -        Rs.120\n";
                 cout<<"2.Chicken Lollipop            -        Rs.185\n";
-                cout<<"3.Panner Tikka            	 -        Rs.150\n";
+                cout<<"3.Paneer Tikka            	 -        Rs.150\n";
                 cout<<"4.Crispy Corn                 -        Rs.130\n";
                 cout<<"5.Egg Devil                   -        Rs.150\n";
                 cout<<"6.Stuffed Mushrooms           -        Rs.140\n";
                 cout<<"7.Chicken Malai Tikka         -        Rs.190\n";
-                cout<<"Enter your food:"<<endl;
-                getline(cin,token);
-                cout<<"Enter quantity:"<<endl;
-                cin>>quantity;
-                auto it=priceMenu.find(token);
-                if(it != priceMenu.end() && quantity>0)
-                {
-                    orders.push_back({token,quantity});
-                    bill+=it->second*quantity;
-                    cout<<"Item added to order."<<endl;
-                }
-                else
-                {
-                    cout<<"Invalid food item,choose again"<<endl;
-                }
                 break;
                 }
         case 2:
                 {
-                    string token;int quantity;
+                string token;int quantity;
                 cout<<"----------Indian Menu----------"<<endl;
                 cout<<"1.Butter Chicken            -        Rs.250\n";
-                cout<<"2.Panner Butter Masala      -        Rs.200\n";
+                cout<<"2.Paneer Butter Masala      -        Rs.200\n";
                 cout<<"3.Dal Makhani               -        Rs.150\n";
                 cout<<"4.Chicken Biryani           -        Rs.220\n";
-                cout<<"5.Veg Bhiryani              -        Rs.180\n";
+                cout<<"5.Veg Biryani               -        Rs.180\n";
                 cout<<"6.Aalu Paratha              -        Rs.140\n";
                 cout<<"7.Fish Curry                -        Rs.250\n";
-                cout<<"Enter your food:"<<endl;
-                getline(cin,token);
-                cout<<"Enter quantity:"<<endl;
-                cin>>quantity;
-                auto it=priceMenu.find(token);
-                if(it != priceMenu.end() && quantity>0)
-                {
-                    orders.push_back({token,quantity});
-                    bill+=it->second*quantity;
-                    cout<<"Item added to order."<<endl;
-                }
-                else
-                {
-                    cout<<"Invalid food item,choose again"<<endl;
-                }
                 break;
                 }
         case 3:
                 {
-                    string token;int quantity;
+                string token;int quantity;
                 cout<<"----------Continental Menu----------"<<endl;
                 cout<<"1.Chicken Alfredo Pasta                 -        Rs.240\n";
-                cout<<"2.Lamb chops with Mashed Poatatoes      -        Rs.320\n";
-                cout<<"3.Stufed Bell Peppers                   -        Rs.180\n";
-                cout<<"4.Butterd Veggies                       -        Rs.90\n";
+                cout<<"2.Lamb chops with Mashed Potatoes       -        Rs.320\n";
+                cout<<"3.Stuffed Bell Peppers                  -        Rs.180\n";
+                cout<<"4.Buttered Veggies                      -        Rs.90\n";
                 cout<<"5.Veggies Quesadillas                   -        Rs.220\n";
                 cout<<"6.BBQ Chicken Wings                     -        Rs.190\n";
-                cout<<"Enter your food:"<<endl;
-                getline(cin,token);
-                cout<<"Enter quantity:"<<endl;
-                cin>>quantity;
-                auto it=priceMenu.find(token);
-                if(it != priceMenu.end() && quantity>0)
-                {
-                    orders.push_back({token,quantity});
-                    bill+=it->second*quantity;
-                    cout<<"Item added to order."<<endl;
-                }
-                else
-                {
-                    cout<<"Invalid food item,choose again"<<endl;
-                }
                 break;
                 }
         case 4:
                 {
-                    string token;int quantity;
+                string token;int quantity;
                 cout<<"----------Breads & Rice Menu----------"<<endl;
                 cout<<"1.Naan(plain/butter)                 -        Rs.40\n";
                 cout<<"2.Tandoori Roti   					-        Rs.25\n";
                 cout<<"3.Steamed Rice                		-        Rs.80\n";
                 cout<<"4.Jeera Rice                    		-        Rs.100\n";
-                cout<<"Enter your food:"<<endl;
-                getline(cin,token);
-                cout<<"Enter quantity:"<<endl;
-                cin>>quantity;
-                auto it=priceMenu.find(token);
-                if(it != priceMenu.end() && quantity>0)
-                {
-                    orders.push_back({token,quantity});
-                    bill+=it->second*quantity;
-                    cout<<"Item added to order."<<endl;
-                }
-                else
-                {
-                    cout<<"Invalid food item,choose again"<<endl;
-                }
                 break;
                 }
         case 5:            
                 {
-                    string token;int quantity;
+                string token;int quantity;
                 cout<<"----------Desserts Menu----------"<<endl;
                 cout<<"1.Gulab Jamun                -        Rs.60\n";
                 cout<<"2.Chocolate Brownie   		-        Rs.80\n";
@@ -195,52 +128,37 @@ void rest::order()
                 cout<<"4.Rasmalai                   -        Rs.90\n";
                 cout<<"5.Tiramisu                   -        Rs.110\n";
                 cout<<"6.Fruit salad                -        Rs.80\n";
-                cout<<"Enter your food:"<<endl;
-                getline(cin,token);
-                cout<<"Enter quantity:"<<endl;
-                cin>>quantity;
-                auto it=priceMenu.find(token);
-                if(it != priceMenu.end() && quantity>0)
-                {
-                    orders.push_back({token,quantity});
-                    bill+=it->second*quantity;
-                    cout<<"Item added to order."<<endl;
-                }
-                else
-                {
-                    cout<<"Invalid food item,choose again"<<endl;
-                }
                 break;
                 }
         case 6:
                 {
-                    string token;int quantity;
-                    cout<<"----------Beverages Menu----------"<<endl;
-                    cout<<"1.Masala Chai            -        Rs.30\n";
-                    cout<<"2.Cold coffee        	-        Rs.70\n";
-                    cout<<"3.Fresh Lime Soda        -        Rs.50\n";
-                    cout<<"4.Soft Drinks            -        Rs.40\n";
-                    cout<<"5.Coconut water          -        Rs.60\n";
-                    cout<<"6.Cappuccino             -        Rs.90\n";
-                    cout<<"Enter your food:"<<endl;
-                    getline(cin,token);
-                    cout<<"Enter quantity:"<<endl;
-                    cin>>quantity;
-                    auto it=priceMenu.find(token);
-                    if(it != priceMenu.end() && quantity>0)
-                    {
-                        orders.push_back({token,quantity});
-                        bill+=it->second*quantity;
-                        cout<<"Item added to order."<<endl;
-                    }
-                    else
-                    {
-                        cout<<"Invalid food item,choose again"<<endl;
-                    }
-                    break;
+                string token;int quantity;
+                cout<<"----------Beverages Menu----------"<<endl;
+                cout<<"1.Masala Chai            -        Rs.30\n";
+                cout<<"2.Cold coffee        	-        Rs.70\n";
+                cout<<"3.Fresh Lime Soda        -        Rs.50\n";
+                cout<<"4.Soft Drinks            -        Rs.40\n";
+                cout<<"5.Coconut water          -        Rs.60\n";
+                cout<<"6.Cappuccino             -        Rs.90\n";
+                break;
                 }
-        default:
-            cout<<"Invalid choice"<<endl;
+    }
+    cout<<"Enter your food item correctly:"<<endl;
+    getline(cin,token);
+    cout<<"Enter quantity:"<<endl;
+    cin>>quantity;
+    cin.ignore();
+
+    auto it=priceMenu.find(token);
+    if(it != priceMenu.end() && quantity > 0)
+    {
+        orders.push_back({token,quantity});
+        bill += it->second * quantity;
+        cout<<"Item added to order."<<endl;
+    }
+    else
+    {
+        cout<<"Invalid item or quantity"<<endl;
     }
     cout<<"Want to add more items?(y/n):"<<endl;
     cin>>reorder;
@@ -251,10 +169,10 @@ void rest::deleteItem(int del)
 {
 	if(del>=1 && del<=orders.size())
     {
-	    string item=orders[del-1].first;
-	    int quantity=orders[del-1].second;
-	    bill-=priceMenu[item]*quantity;
-	    orders.erase(orders.begin()+del-1);
+	    string item = orders[del-1].first;
+	    int quantity = orders[del-1].second;
+	    bill -= priceMenu[item]*quantity;
+	    orders.erase(orders.begin() + del-1);
 	    cout<<"Item deleted successfully and bill updated"<<endl;
     }
     else
@@ -262,89 +180,103 @@ void rest::deleteItem(int del)
         cout<<"Invalid item"<<endl;
     }
 }
-int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,char isVip)
+void rest::showBill()
 {
-    int choice;float bill;
+    cout<<"------------Order Summary-----------"<<endl;
+    for(auto& order : orders)
+    {
+        cout<<order.first<<"      -  Qty:      "<<order.second<<endl;
+    }
+    cout<<"==========Total Bill:         Rs."<<bill<<endl;
+    if(bill>2000)
+    {
+        applyDiscount();
+    }
+}
+void rest::applyDiscount()
+{
+    float discount = bill * 0.15;
+    bill -= discount;
+    cout<<"===========Total Bill(after 15 percent discount)============"<<bill<<endl;
+}
+int mainMenu(restaurant &r,queue<string> &vipQueue,queue<string> &customerQueue,char isVip,int &servedVipCount)
+{
+    int choice;
     cout<<"----------What is your choice?-----------"<<endl;
     cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Bill:"<<endl;
     cin>>choice;
     cin.ignore();
-        switch(choice)
-        {
-            case 1:
-                r.order();
-                break;
-            case 2:
-                int del;
-                cout<<"Enter Delete item:"<<endl;
-                cin>>del;
-                r.deleteItem(del);
-                break;
-            case 3:
-                if(isVip=='y' || isVip=='Y')
-                {
-                    vipQueue.pop();
-                }
-                else
-                {
-                    customerQueue.pop();
-                }
-                break;
-            case 4:
-            cout<<"----------VIP Queue---------"<<endl;
-            if(vipQueue.empty())
-            cout<<"No Vip Customers"<<endl;
-            else
+    switch(choice)
+    {
+        case 1:
+            r.order();
+            break;
+        case 2:
+            int del;
+            cout<<"Enter Delete item:"<<endl;
+            cin>>del;
+            r.deleteItem(del);
+            break;
+        case 3:
+            if(isVip=='y' || isVip=='Y')
             {
-                queue<string> temp=vipQueue;
-                while(!temp.empty())
-                {
-                    cout<<temp.front()<<endl;
-                    temp.pop();
-                }
+                if(!vipQueue.empty()) customerQueue.pop();
+                servedVipCount++;
             }
-            cout<<"----------Customers Queue---------"<<endl;
-            if(customerQueue.empty())
-            cout<<"No Customers"<<endl;
             else
             {
-                queue<string> temp=customerQueue;
-                while(!temp.empty())
-                {
-                    cout<<temp.front()<<endl;
-                    temp.pop();
-                }
+                if(!customerQueue.empty()) customerQueue.pop();
             }
             break;
-            case 5:
-                {
-                    cout<<"============Total Bill:     Rs."<<bill<<"============="<<endl;
-                    cout<<"----------Thank you for visiting!-------------"<<endl;
-                    cout<<"----------Hope you will enjoy the food-----------"<<endl;
-                    cout<<"========================================================"<<endl;
-                }
-                break;
-            default:
-                cout<<"Invalid Choice please enter again:"<<endl;
-                cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Exit"<<endl;
+        case 4:
+        cout<<"----------VIP Queue---------"<<endl;
+        if(vipQueue.empty())
+        cout<<"No Vip Customers"<<endl;
+        else
+        {
+            queue<string> temp = vipQueue;
+            while(!temp.empty())
+            {
+                cout<<temp.front()<<endl;
+                temp.pop();
+            }
         }
-        return choice;
+        cout<<"----------Customers Queue---------"<<endl;
+        if(customerQueue.empty())
+        cout<<"No Customers"<<endl;
+        else
+        {
+            queue<string> temp=customerQueue;
+            while(!temp.empty())
+            {
+                cout<<temp.front()<<endl;
+                temp.pop();
+            }
+        }
+        break;
+        case 5:
+            r.showBill();
+            cout<<"----------Thank you for visiting!-------------"<<endl;
+            cout<<"----------Hope you enjoyed the food-----------"<<endl;
+            cout<<"========================================================"<<endl;
+            break;
+        default:
+            cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Bill"<<endl;
+    }
+    return choice;
 }
 int main()
 {
-	int c=0;
+	int servedVipCount=0;
 	queue<string> vipQueue;
 	queue<string> customerQueue;
-	int choice;
     char newCustomer;
     do
     {
-        int mainChoice;
         cout<<"----------Welcome to Restaurant----------"<<endl;
         string name;char isVip;
         cout<<"Your good name please:"<<endl;
         cin>>name;
-        cin.ignore();
         cout<<"Is VIP?(Y/N):"<<endl;
         cin>>isVip;
         if(isVip=='Y' || isVip=='y')
@@ -356,12 +288,28 @@ int main()
             customerQueue.push(name);
         }
         restaurant r (name,isVip);
+        int mainChoice;
         do
         {
-            mainChoice=mainMenu(r,vipQueue,customerQueue,isVip);
+            if(servedVipCount>=2 && !customerQueue.empty())
+            {
+                    servedVipCount=0;
+            }
+            mainChoice=mainMenu(r,vipQueue,customerQueue,isVip,servedVipCount);
         }while(mainChoice!=5);
+        int rating;
+        cout<<"Please rate the service out of 5:"<<endl;
+        cin>>rating;
+        if(rating < 1 || rating >5)
+        {
+            cout<<"Invalid rating,please enter rating between 1 and 5:"<<endl;
+        }
+        else
+        {
+            cout<<"Thank you for your feedback"<<endl;
+        }
         cout<<"Is there new Customer?(y/n):"<<endl;
         cin>>newCustomer;
-        cin.ignore();
     }while(newCustomer=='Y' || newCustomer=='y');
+    return 0;
 }
