@@ -261,7 +261,7 @@ void rest::applyDiscount()
     bill -= discount;
     cout<<"===========Total Bill(after 15 percent discount)============"<<bill<<endl;
 }
-int mainMenu(restaurant &r,Kitchen &kitchen,queue<restaurant> &vipQueue,queue<restaurant> &customerQueue,char isVip,int &servedVipCount)
+int mainMenu(restaurant &r,Kitchen &kitchen,queue<restaurant> &vipQueue,queue<restaurant> &customerQueue,char isVip,int &servedVipCount,int &servedRegularCount)
 {
     int choice;
     cout<<"----------What is your choice?-----------"<<endl;
@@ -414,7 +414,7 @@ int main()
                 cout<<"\nNow serving  customer: "<<cCustomer.getTableNumber()<<endl;
                 int mainChoice;
                 do{
-                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
+                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount,servedRegularCount);
                 }while(mainChoice!=7 && mainChoice>0);
             }
         }
