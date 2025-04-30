@@ -203,6 +203,7 @@ void rest::order()
     }
     cout<<"Enter your food item correctly:"<<endl;
     getline(cin,token);
+cin.ignore();
     cout<<"Enter quantity:"<<endl;
     cin>>quantity;
     cin.ignore();
