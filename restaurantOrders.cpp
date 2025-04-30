@@ -384,11 +384,6 @@ int main()
         if(isVip=='Y' || isVip=='y')
         {
             vipQueue.push(r);
-            servedVipCount++;
-            if(servedVipCount>=2 && !customerQueue.empty())
-            {
-                servedVipCount=0;
-            }
         }
         else
         {
@@ -406,6 +401,10 @@ int main()
                     mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
                 }while(mainChoice!=7 && mainChoice>0);
                 servedVipCount++;
+		    if(servedVipCount>=2)
+		    {
+		       servedVipCount=0;
+		    }
             }
             else if(!customerQueue.empty())
             {
@@ -416,11 +415,11 @@ int main()
                 do{
                     mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
                 }while(mainChoice!=7 && mainChoice>0);
-                servedVipCount=0;
             }
         }
         cout<<"Is there new Customer?(y/n):"<<endl;
         cin>>newCustomer;
+	cin.ignore();
     }while(newCustomer=='Y' || newCustomer=='y');
     return 0;
 }
