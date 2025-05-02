@@ -51,6 +51,7 @@ class rest{
         int tableNumber;
 	public:
         string cName;
+        vector<pair<string,int>> getOrders() const{return orders;}
 		rest(string n,int table) : cName(n), bill(0) ,tableNumber(table) {}
 		void order();
 		void deleteItem(int itemNum);
@@ -121,7 +122,7 @@ class Kitchen{
 void rest::order()
 {
 	int category;char reorder;string token;int quantity;
-	cout<<"---------Choose the food--------"<<endl;
+	cout<<"---------Food Categories--------"<<endl;
     do{
     cout<<"1.Starters\n2.Indian\n3.Continental\n4.Breads & Rice\n5.Desserts\n6.Beverages:"<<endl;
     cin>>category;
@@ -203,11 +204,9 @@ void rest::order()
     }
     cout<<"Enter your food item correctly:"<<endl;
     getline(cin,token);
-cin.ignore();
     cout<<"Enter quantity:"<<endl;
     cin>>quantity;
     cin.ignore();
-
     auto it=priceMenu.find(token);
     if(it != priceMenu.end() && quantity > 0)
     {
@@ -264,7 +263,7 @@ void rest::applyDiscount()
 int mainMenu(restaurant &r,Kitchen &kitchen,queue<restaurant> &vipQueue,queue<restaurant> &customerQueue,char isVip,int &servedVipCount,int &servedRegularCount)
 {
     int choice;
-    cout<<"----------What is your choice?-----------"<<endl;
+    cout<<"----------Main Menu-----------"<<endl;
     cout<<"1.Place order\n2.Delete item\n3.Delete order\n4.Show Queue\n5.Process Kitchen\n6.View Table\n7.Bill\n8.Exit:"<<endl;
     cin>>choice;
     cin.ignore();
@@ -355,6 +354,7 @@ int main()
         kitchen.addTable(i);
     }
 	int servedVipCount=0;
+    int servedRegularCount=0;
 	queue<restaurant> vipQueue;
 	queue<restaurant> customerQueue;
     char newCustomer;
@@ -399,7 +399,11 @@ int main()
                 cout<<"\nNow serving VIP customer: "<<cCustomer.getTableNumber()<<endl;
                 int mainChoice;
                 do{
-                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount);
+                    mainChoice=mainMenu(cCustomer,kitchen,vipQueue,customerQueue,cCustomer.getVipStatus(),servedVipCount,servedRegularCount);
+                    if(mainChoice==1)
+                    {
+                        kitchen.placeOrder(cCustomer.getTableNumber(),cCustomer.getOrders());
+                    }
                 }while(mainChoice!=7 && mainChoice>0);
                 servedVipCount++;
 		    if(servedVipCount>=2)
@@ -420,7 +424,7 @@ int main()
         }
         cout<<"Is there new Customer?(y/n):"<<endl;
         cin>>newCustomer;
-	cin.ignore();
+	    cin.ignore();
     }while(newCustomer=='Y' || newCustomer=='y');
     return 0;
 }
