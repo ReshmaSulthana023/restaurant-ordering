@@ -290,31 +290,16 @@ int mainMenu(restaurant &r,Kitchen &kitchen,queue<restaurant> &vipQueue,queue<re
             kitchen.clearTable(r.getTableNumber());
             return -1;
         case 4:
-        cout<<"----------VIP Queue---------"<<endl;
-        if(vipQueue.empty())
-        cout<<"No Vip Customers"<<endl;
-        else
-        {
-            queue<restaurant> temp = vipQueue;
-            while(!temp.empty())
-            {
-                cout<<"Customer: "<<temp.front().cName<<"at Table "<<temp.front().getTableNumber()<<endl;
-                temp.pop();
-            }
-        }
-        cout<<"----------Customers Queue---------"<<endl;
-        if(customerQueue.empty())
-        cout<<"No Customers"<<endl;
-        else
-        {
-            queue<restaurant> temp=customerQueue;
-            while(!temp.empty())
-            {
-                cout<<"Customer: "<<temp.front().cName<<"at Table "<<temp.front().getTableNumber()<<endl;
-                temp.pop();
-            }
-        }
-        break;
+		cout<<"----------Current Serving---------"<<endl;
+		if(isVip=='y' || isVip=='Y')
+		{
+			cout<<"VIP Customer: "<<r.cName<<" at Table "<<r.getTableNumber()<<endl;
+		}
+		else
+		{
+			cout<<"Regular Customer: "<<r.cName<<" at Table "<<r.getTableNumber()<<endl;
+		}
+		break;
         case 5:
             kitchen.processOrders();
             break;
