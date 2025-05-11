@@ -18,17 +18,17 @@ Tracks customer names and table assignments
 
 Comprehensive food menu with 6 categories:
 
-Starters
+      1.Starters
 
-Indian Cuisine
+      2.Indian Cuisine
 
-Continental Dishes
+      3.Continental Dishes
 
-Breads & Rice
+      4.Breads & Rice
 
-Desserts
+      5.Desserts
 
-Beverages
+      6.Beverages
 
 Dynamic pricing system with over 30 menu items
 
@@ -62,15 +62,15 @@ Tracks table numbers with each order
 
 Detailed bill generation with:
 
-Table number
+     *Table number
 
-Customer name
+     *Customer name
 
-Date/time stamp
+     *Date/time stamp
 
-Itemized listing with quantities
+     *Itemized listing with quantities
 
-Total amount with applicable discounts
+     *Total amount with applicable discounts
 
 **7. Customer Feedback**
 
@@ -84,15 +84,15 @@ Implemented in C++ using object-oriented principles
 
 Uses STL containers:
 
-queue for order management
+      *queue for order management
 
-vector for order items
+      *vector for order items
 
-map for price menu and table status
+      *map for price menu and table status
 
-Time handling with <ctime>
+      *Time handling with <ctime>
 
-Formatted output with <iomanip>
+      *Formatted output with <iomanip>
 
 **How to Use**
 
@@ -102,10 +102,10 @@ Run the executable
 
 Follow the on-screen prompts to:
 
-Enter customer details
+    *Enter customer details
 
-Select menu items
+    *Select menu items
 
-Manage orders
+    *Manage orders
 
-Process payments
+    *Process payments
