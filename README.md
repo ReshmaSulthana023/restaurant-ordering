@@ -1,10 +1,10 @@
-###**Restaurant Management System**
+### **Restaurant Management System**
 
-##**Overview**
+## **Overview**
 
 This C++ program simulates a restaurant management system that handles customer orders, table management, kitchen operations, and VIP customer prioritization. The system provides a complete workflow from customer seating to order processing and billing.
 
-##**Features**
+## **Features**
 
 **1. Customer Management**
 
@@ -78,7 +78,7 @@ Rating system (1-5 stars)
 
 Thank you message upon departure
 
-##**Technical Details**
+## **Technical Details**
 
 Implemented in C++ using object-oriented principles
 
@@ -94,7 +94,7 @@ Uses STL containers:
 
       *Formatted output with <iomanip>
 
-##**How to Use**
+## **How to Use**
 
 Compile the program with a C++ compiler
 
