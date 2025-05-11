@@ -26,7 +26,7 @@ map<string,float> priceMenu={
         {"Stuffed Bell Peppers",180.0},                 
         {"Buttered Veggies",90.0},                
         {"Veggies Quesadillas",220.0},                         
-        {"BBQ Chicken Wing",190.0},            
+        {"BBQ Chicken Wings",190.0},            
         {"Naan(plain/butter)",40.0},               
         {"Tandoori Roti",25.0},   
         {"Steamed Rice",80.0},                	
