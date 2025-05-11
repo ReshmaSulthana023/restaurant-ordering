@@ -1,4 +1,5 @@
 Overview
+
 This C++ program simulates a restaurant management system that handles customer orders, table management, kitchen operations, and VIP customer prioritization. The system provides a complete workflow from customer seating to order processing and billing.
 
 Features
